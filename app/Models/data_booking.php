@@ -10,25 +10,28 @@ class data_booking extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'ID_Mobil',
+        'data_mobil_id',
         'email',
         'total_harga',
         'phone',
         'tanggal_booking',
         'tanggal_kembali',
-       
+
     ];
 
 
-    public function data_mobil(){
+    public function data_mobil()
+    {
         return $this->belongsTo(data_mobils::class);
     }
 
-    public function User(){
+    public function User()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function data_pembayaran(){
+    public function data_pembayaran()
+    {
         return $this->hasOne(data_pembayaran::class);
     }
 

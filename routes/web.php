@@ -1,10 +1,17 @@
 <?php
-  
+
 use Illuminate\Support\Facades\Route;
-  
+
 use App\Http\Controllers\Auth\AuthController;
 
 use App\Http\Controllers\ProductController;
+
+use Illuminate\Http\Request;
+
+use App\Http\Controllers\Tripay\TripayCallbackController;
+
+use App\Http\Controllers\checkoutController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,23 +23,38 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/car_details', function () {
-    return view('car_details');
-});
 
 Route::get('/', function () {
     return view('main');
 });
+Route::get('search', [ProductController::class, 'index']);
+Route::get('car_details', [ProductController::class, 'details']);
 
 
+Route::get('/redirect', function (Request $request) {
 
-Route::get('login', [AuthController::class, 'index'])->name('login');
-Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post'); 
-Route::get('registration', [AuthController::class, 'registration'])->name('register');
-Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post'); 
+    return redirect()->to('/transaction/' . $request->input('tripay_reference'));
 
-Route::get('search', [ProductController::class, 'dashboard']); 
+});
 
-Route::get('test', [ProductController::class, 'index']); 
+Route::middleware('AuthNoLogin')->group(function () {
+    Route::get('login', [AuthController::class, 'index'])->name('login');
+    Route::post('post-login', [AuthController::class, 'postLogin'])->name('login.post');
+    Route::get('registration', [AuthController::class, 'registration'])->name('register');
+    Route::post('post-registration', [AuthController::class, 'postRegistration'])->name('register.post');
 
-Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+});
+
+Route::middleware('AuthCheck')->group(function () {
+    Route::get('{id}/checkout', [checkoutController::class, 'select_payment']);
+    Route::post('{id}/post_checkout', [checkoutController::class, 'store'])->name('payment.post');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('transaction', [checkoutController::class, 'transaction']);
+    Route::get('transaction/{id}', [checkoutController::class, 'details_transaction']);
+});
+
+
+Route::middleware('blockIP')->group(function () {
+    Route::post('callback', [TripayCallbackController::class, 'handle']);
+});

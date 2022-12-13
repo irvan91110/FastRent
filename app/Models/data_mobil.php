@@ -17,11 +17,13 @@ class data_mobil extends Model
         'status_mobil',
     ];
 
-    public function urls(){
+    public function urls()
+    {
         return $this->hasMany(urls::class);
     }
 
-    public function data_booking(){
+    public function data_booking()
+    {
         return $this->hasMany(data_bookings::class);
     }
 

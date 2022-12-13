@@ -8,13 +8,22 @@ use Illuminate\Database\Eloquent\Model;
 class data_pembayaran extends Model
 {
     use HasFactory;
+    protected $primaryKey = 'reference';
+
     public $timestamps = false;
+    protected $dates = ['created_at'];
+
     protected $fillable = [
         'data_booking_id',
-        'metode_pembayaran',
-        'status_pembayaran', 
+        'reference',
+        'merchant_ref',
+        'Total_amount',
+        'status',
+        'created_at'
     ];
-    public function data_booking(){
+
+    public function data_booking()
+    {
         return $this->hasOne(data_booking::class);
     }
 

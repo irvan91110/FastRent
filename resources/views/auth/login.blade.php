@@ -12,9 +12,18 @@
 					<div class="card shadow-lg">
 						<div class="card-body p-5">
 							<h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
+							@if(session()->get('errors'))
+							<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    <strong>Opps!</strong>{{ $errors->first() }}
+
+
+  </div>
+@endif
 							<form action="{{ route('login.post') }}" method="POST">
                           @csrf
 								<div class="mb-3">
+									
 									<label class="mb-2 text-muted" for="email">E-Mail Address</label>
 									<input id="email" type="email" class="form-control" name="email" value="" required autofocus>
 									<div class="invalid-feedback">
