@@ -17,6 +17,8 @@ class data_booking extends Model
         'tanggal_booking',
         'tanggal_kembali',
 
+        'Status_Pesanan',
+
     ];
 
 

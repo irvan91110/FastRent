@@ -25,6 +25,8 @@ return new class extends Migration {
             $table->date("tanggal_booking");
             $table->date("tanggal_kembali");
 
+            $table->enum("Status_Pesanan", ['BELUM', 'SIAP', 'DIAMBIL', 'KEMBALI', 'SELESAI'])->default('BELUM');
+
         });
     }
 

@@ -33,7 +33,7 @@
     <div class="row">
         <div class="col-md-4 order-md-2 mb-4">
             <h4 class="d-flex justify-content-between align-items-center mb-3">
-                <span class="text-muted">Order Details</span>
+                <span class="text-muted">Detail Pesanan</span>
                 <span class="badge badge-secondary badge-pill">3</span>
             </h4>
             <ul class="list-group mb-3 sticky-top">
@@ -49,21 +49,46 @@
                     <div>
 
                         <h6 class="my-0">{{$data_mobil->nama_mobil}}</h6>
+                 
+                 
                         <small class="text-muted">Kapasitas : {{$data_mobil->kapasitas_mobil}} Orang</small>
                         <div><small class="text-muted">Transmisi : {{$data_mobil->transmisi_mobil ==0? "Manual" :
                                 "Matic"}}</small></div>
+                                
+
+
+                             
                     </div>
+
+                 
+                    
                     <span class="text-muted">IDR {{number_format($data_mobil->harga_mobil,0,',',',')}} *
-                        {{$perkalian}} Days</span>
+                        {{$perkalian}} Hari</span>
+              
+                 
                 </li>
 
-                <li class="list-group-item d-flex justify-content-between lh-condensed">
 
-                    <div>
+                <!-- <div><small class="text-muted">Order For: {{ app('request')->input('sd') }} - {{ app('request')->input('ed') }}</small></div>
+                    </div> -->
 
-                        <span class="text-muted">Total Harga : IDR
-                            {{number_format($data_mobil->harga_mobil*$perkalian,0,',',',')}}</span>
-                </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+
+<div>
+<small class="text-muted">Tanggal awal: {{ app('request')->input('sd') }}</small>
+                        <div><small class="text-muted">Tanggal akhir :  {{ app('request')->input('ed') }}</small></div>
+ 
+</li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+
+<div>
+
+    <span class="text-muted">Total Harga : IDR
+        {{number_format($data_mobil->harga_mobil*$perkalian,0,',',',')}}</span>
+</li>
+
+
+
 
 
             </ul>
@@ -77,25 +102,25 @@
             </form>
         </div>
         <div class="col-md-8">
-            <h4 class="mb-3">Billing address</h4>
+            <h4 class="mb-3">Alamat</h4>
             <form action="{{ route('payment.post', $data_mobil->id) }}" class="needs-validation" method="post">
                 @csrf
 
                 <div class="row">
                     <div class="col-md-6 mb-3">
-                        <label for="firstName">First name</label>
+                        <label for="firstName">Nama Depan</label>
                         <input type="text" class="form-control" id="firstName" name="first_name" required>
                         <div class="invalid-feedback"> Valid first name is required. </div>
                     </div>
                     <div class="col-md-6 mb-3">
-                        <label for="lastName">Last name</label>
+                        <label for="lastName">Nama Belakang</label>
                         <input type="text" class="form-control" id="lastName" placeholder="" name="last_name" required>
                         <div class="invalid-feedback"> Valid last name is required. </div>
                     </div>
                 </div>
 
                 <div class="mb-3">
-                    <label for="email">Email <span class="text-muted">(this email for sent the invoice)</span></label>
+                    <label for="email">Email <span class="text-muted">(Digunakan untuk menerima inovice)</span></label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="you@example.com">
                     <div class="invalid-feedback"> Please enter a valid email address for shipping updates. </div>
                 </div>
@@ -104,11 +129,20 @@
                 <input type="hidden" name="end_date" value="{{ app('request')->input('ed') }}">
 
                 <div class="mb-3">
-                    <label for="email">phone number </label>
+                    <label for="email">Nomor telepon </label>
                     <div class="form-control">
                         <span class="border-end country-code px-2">+62</span>
+                        @if(Auth::user()->phone)
+         
                         <input type="number" class="form-control" placeholder="85156540536" name="phone"
-                            value=85156540536 />
+                          value = "{{ Auth::user()->phone }}" />
+         @else
+         <input type="number" class="form-control" placeholder="85156540536" name="phone"
+                             required/>
+         
+         @endif
+
+                      
                     </div>
 
 

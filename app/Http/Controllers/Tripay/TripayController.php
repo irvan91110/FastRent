@@ -21,13 +21,13 @@ class TripayController extends Controller
         curl_setopt_array(
             $curl,
             array(
-            CURLOPT_FRESH_CONNECT => true,
-            CURLOPT_URL => 'https://tripay.co.id/' . env('API_url') . '/merchant/payment-channel',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $API_KEY],
-            CURLOPT_FAILONERROR => false,
-            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
+                CURLOPT_FRESH_CONNECT => true,
+                CURLOPT_URL => 'https://tripay.co.id/' . env('API_url') . '/merchant/payment-channel',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER => false,
+                CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $API_KEY],
+                CURLOPT_FAILONERROR => false,
+                CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
             )
         );
 
@@ -95,14 +95,14 @@ class TripayController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, [
-            CURLOPT_FRESH_CONNECT => true,
-            CURLOPT_URL => 'https://tripay.co.id/' . env('API_url') . '/transaction/create',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER => false,
-            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
-            CURLOPT_FAILONERROR => false,
-            CURLOPT_POST => true,
-            CURLOPT_POSTFIELDS => http_build_query([
+                CURLOPT_FRESH_CONNECT => true,
+                CURLOPT_URL => 'https://tripay.co.id/' . env('API_url') . '/transaction/create',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER => false,
+                CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
+                CURLOPT_FAILONERROR => false,
+                CURLOPT_POST => true,
+                CURLOPT_POSTFIELDS => http_build_query([
                     'method' => $request->payment,
                     'merchant_ref' => $merchantRef,
                     'amount' => $amount * $total,
@@ -126,7 +126,7 @@ class TripayController extends Controller
                     //30 detik
                     'signature' => hash_hmac('sha256', $merchantCode . $merchantRef . ($amount * $total), $privateKey)
                 ]),
-            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
+                CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
             ]);
 
             $response = curl_exec($curl);
@@ -144,6 +144,7 @@ class TripayController extends Controller
                 'merchant_ref' => $transaction->merchant_ref,
                 'Total_amount' => $transaction->amount,
                 'status' => $transaction->status,
+                'created_at' => time(),
 
             ]);
             return redirect()->to(json_decode($response ?: $error)->data->pay_url);
@@ -171,13 +172,13 @@ class TripayController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-        CURLOPT_FRESH_CONNECT => true,
-        CURLOPT_URL => 'https://tripay.co.id/api-sandbox/merchant/transactions?' . http_build_query($payload),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER => false,
-        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
-        CURLOPT_FAILONERROR => false,
-        CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
+            CURLOPT_FRESH_CONNECT => true,
+            CURLOPT_URL => 'https://tripay.co.id/api-sandbox/merchant/transactions?' . http_build_query($payload),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER => false,
+            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
+            CURLOPT_FAILONERROR => false,
+            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
         ]);
 
         $response = curl_exec($curl);
@@ -201,13 +202,13 @@ class TripayController extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, [
-        CURLOPT_FRESH_CONNECT => true,
-        CURLOPT_URL => 'https://tripay.co.id/api-sandbox/transaction/detail?' . http_build_query($payload),
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER => false,
-        CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
-        CURLOPT_FAILONERROR => false,
-        CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
+            CURLOPT_FRESH_CONNECT => true,
+            CURLOPT_URL => 'https://tripay.co.id/api-sandbox/transaction/detail?' . http_build_query($payload),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER => false,
+            CURLOPT_HTTPHEADER => ['Authorization: Bearer ' . $apiKey],
+            CURLOPT_FAILONERROR => false,
+            CURLOPT_IPRESOLVE => CURL_IPRESOLVE_V4
         ]);
 
         $response = curl_exec($curl);

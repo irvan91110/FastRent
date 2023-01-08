@@ -551,7 +551,7 @@
   </script>
   <script type="text/javascript">
     var date = new Date();
-    var Tdate = date.getDate();
+    var Tdate = date.getDate() + 1;
     var month = date.getMonth() + 1;
     var year = date.getUTCFullYear();
     if (Tdate < 10) {

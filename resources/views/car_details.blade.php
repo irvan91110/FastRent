@@ -362,12 +362,12 @@
 
 
 
-          <p class="ml-1">Order For: {{ app('request')->input('sd') }} - {{ app('request')->input('ed') }}</p>
+          
           <div class="buttons">
 
             <h6>IDR {{number_format($datax['harga_mobil'],0,',',',')}} / Day</h6>
             <a href="{{$datax->id}}/checkout?sd={{ app('request')->input('sd') }}&ed={{ app('request')->input('ed') }}"
-              class="btn btn-warning btn-long buy">Buy it Now
+              class="btn btn-warning btn-long buy">Lanjutkan
 
             </a>
             <div class="bullets" style="margin-top:15px;">

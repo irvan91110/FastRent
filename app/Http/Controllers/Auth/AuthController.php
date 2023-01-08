@@ -118,4 +118,20 @@ class AuthController extends Controller
 
         return Redirect('/');
     }
+
+
+
+    public function profile()
+    {
+
+        return view('profile.profile');
+    }
+
+    public function profile_update()
+    {
+
+        return view('auth.registration');
+    }
+
+
 }

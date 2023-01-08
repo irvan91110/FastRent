@@ -52,6 +52,11 @@ Route::middleware('AuthCheck')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('transaction', [checkoutController::class, 'transaction']);
     Route::get('transaction/{id}', [checkoutController::class, 'details_transaction']);
+
+    Route::get('profile', [AuthController::class, 'profile'])->name('profile');
+
+    Route::post('post-profile', [AuthController::class, 'profile_update'])->name('update.profile');
+
 });
 
 

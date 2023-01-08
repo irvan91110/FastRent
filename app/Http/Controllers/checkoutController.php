@@ -7,6 +7,9 @@ use App\Http\Controllers\Tripay\TripayController;
 use Carbon\Carbon;
 
 use App\Models\data_mobil;
+use App\Models\data_booking;
+use App\Models\data_pembayaran;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 
@@ -36,18 +39,31 @@ class checkoutController extends Controller
 
     public function transaction()
     {
-        // return date('Y:M:D H:i:s', '1670858323'); convert time
-        $Tripay = new TripayController();
-
-        return $Tripay->transaction();
+        $items = data_booking::with([
+            'data_pembayaran' => function ($query) {
+                $query->get();
+            }
+        ])
+            ->where('email', Auth::user()->email)->paginate(8);
+        return $items;
+        return view('transaction_list', ['Transaction' => $items, 'perkalian' => ""]);
     }
     public function details_transaction($id)
     {
         $Tripay = new TripayController();
 
-        return $Tripay->details_transaction($id);
+        $items = data_booking::with([
+            'data_pembayaran' => function ($query) {
+                $query->get();
+            }
+        ])
+            ->where('id', data_pembayaran::where('reference', $id)->pluck('data_booking_id')->first())->first();
+
+        $mobil = data_mobil::where('id', $items->data_mobil_id)->first();
 
 
+
+        return view('details_transactions', ['payment_method' => $Tripay->details_transaction($id), 'data_booking' => $items, 'data_mobil' => $mobil, 'pembeli' => $mobil]);
     }
 
 
