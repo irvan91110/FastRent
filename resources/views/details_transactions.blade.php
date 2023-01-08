@@ -164,19 +164,37 @@
                     </div>
                     <h4 class="step-title">Pembayaran Berhasil</h4>
                 </div>
-                <div class="step ">
+                @if( $data_booking->Status_Pesanan == 'DIAMBIL' || $data_booking->Status_Pesanan == 'KEMBALI' || $data_booking->Status_Pesanan == 'SELESAI' )
+
+                <div class="step completed">
+
+@elseif( $data_booking->Status_Pesanan == 'BELUM' || $data_booking->Status_Pesanan == 'SIAP' ) 
+<div class="step">
+@endif
                     <div class="step-icon-wrap">
                         <div class="step-icon"><i class="pe-7s-medal"></i></div>
                     </div>
-                    <h4 class="step-title">Ambil Mobil</h4>
+                    <h4 class="step-title">{{$data_booking->Status_Pesanan == 'DIAMBIL' ? 'Mobil telah diambil': 'AMBIL MOBIL'}}</h4>
                 </div>
-                <div class="step">
+                @if( $data_booking->Status_Pesanan == 'KEMBALI' || $data_booking->Status_Pesanan == 'SELESAI' )
+
+                <div class="step completed">
+
+@elseif( $data_booking->Status_Pesanan == 'BELUM' || $data_booking->Status_Pesanan == 'SIAP' ||$data_booking->Status_Pesanan == 'DIAMBIL' ) 
+<div class="step">
+@endif
                     <div class="step-icon-wrap">
                         <div class="step-icon"><i class="pe-7s-car"></i></div>
                     </div>
-                    <h4 class="step-title">Pengembalian Mobil</h4>
+                    <h4 class="step-title">{{$data_booking->Status_Pesanan == 'KEMBALI' ? 'MOBIL TELAH DIKEMBALIKAN': 'Pengembalian Mobil'}}</h4>
                 </div>
-                <div class="step">
+                @if( $data_booking->Status_Pesanan == 'SELESAI' )
+
+<div class="step completed">
+
+@elseif( $data_booking->Status_Pesanan == 'BELUM' || $data_booking->Status_Pesanan == 'SIAP' ||$data_booking->Status_Pesanan == 'DIAMBIL' ||$data_booking->Status_Pesanan == 'KEMBALI' ) 
+<div class="step">
+@endif
                     <div class="step-icon-wrap">
                         <div class="step-icon"><i class="pe-7s-home"></i></div>
                     </div>
@@ -201,7 +219,7 @@
                 <h5 class="col-6 text-sm-end text-primary">IDR {{number_format($payment_method -> data->amount ,0,',',',')}}</h5>
                 @if($payment_method -> data->status == "UNPAID")
          
-            <a class="payment" href="{{ $payment_method -> data->pay_url}}" target=”_blank”>Bayar Sekarang!</a>
+            <a class="payment" href="{{ $payment_method -> data->checkout_url}}" target=”_blank”>Bayar Sekarang!</a>
         
          
          @endif

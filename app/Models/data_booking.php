@@ -9,6 +9,7 @@ class data_booking extends Model
 {
     use HasFactory;
     public $timestamps = false;
+    protected $dates = ['created_at'];
     protected $fillable = [
         'data_mobil_id',
         'email',

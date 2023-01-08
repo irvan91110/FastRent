@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class data_mobil extends Model
 {
     use HasFactory;
-    public $timestamps = false;
     protected $fillable = [
         'nama_mobil',
         'kapasitas_mobil',
         'transmisi_mobil',
         'harga_mobil',
         'status_mobil',
+
+        'created_at'
     ];
 
     public function urls()

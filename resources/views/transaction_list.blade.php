@@ -10,9 +10,7 @@
         font-family: "Varela Round", sans-serif;
         font-size: 13px;
       }
-      .table-responsive {
-        margin: 30px 0;
-      }
+    
       .table-wrapper {
         min-width: 1000px;
         background: #fff;
@@ -221,7 +219,7 @@
       $(document).ready(function () {
         $('[data-toggle="tooltip"]').tooltip();
       });
-    </script>
+    </script><br>
 <div class="container-xl">
     <div class="table-responsive">
         <div class="table-wrapper">
@@ -246,52 +244,33 @@
                         <th></th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>DEV-13123012</td>
+                <tbody> 
+                @foreach($Transaction as $list)
+                <tr>
+                        <td>{{$list->data_pembayaran->reference}}</td>
                         <td><a href=""> Irvan Ardiansyah</a></td>
-                        <td>Jun 15, 2022</td>
-                        <td>Jun 16, 2022</td>                     
-                        <td><span class="status text-success">&bull;</span>Pembayaran Berhasil</td>
-                        <td>Rp. 150,000</td>
-                        <td><a href="" class="text-underlined">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td>DEV-101020101</td>
-                        <td><a href="#" class="avatar" alt="Avatar"> Paula Wilson</a></td>              
-                        <td>Jun 21, 2022</td>
-                        <td>Jun 22, 2022</td>
-                        <td><span class="status text-secondary">&bull;</span>Menunggu verifikasi</td>
-                        <td>$1,260</td>
-                        <td><a href="">Detail</a></td>
-                    </tr>
-                    <tr>
-                        <td>DEV#1001123131</td>
-                        <td><a href="#" class="avatar" alt="Avatar"> Arya Beta</a></td>
-                        <td>Jul 04, 2022</td>
-                        <td>Jul 05, 2022</td>
-                        <td><span class="status text-danger">&bull;</span>Belum terbayar</td>
-                        <td>$350</td>
-                        <td><a href="">Detail</a></td>                        
-                    </tr>
+                        <td>{{date('j F Y', strtotime($list->tanggal_booking)) }}</td>
+                        <td>{{date('j F Y', strtotime($list->tanggal_kembali)) }}</td>                     
+                        <td>{{$list->data_pembayaran->status}}</td>
+                        <td>Rp. {{number_format($list->total_harga ,0,',',',')}}</td>
+                        <td><a href="/transaction/{{$list->data_pembayaran->reference}}" class="text-underlined">Detail</a></td>
+                        </tr>
+    @endforeach
+  
+                
+                    
+                  
                   
                 </tbody>
             </table>
-            
             <div class="clearfix">
-                <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                 <ul class="pagination">
-                    <li class="page-item disabled"><a href="#">Previous</a></li>
-                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                    <li class="page-item active"><a href="#" class="page-link">4</a></li>
-                    <li class="page-item"><a href="#" class="page-link">5</a></li>
-                    <li class="page-item"><a href="#" class="page-link">6</a></li>
-                    <li class="page-item"><a href="#" class="page-link">7</a></li>
-                    <li class="page-item"><a href="#" class="page-link">Next</a></li>
+                {{ $Transaction->links() }}
                 </ul>
             </div>
+            
+
+
         </div>
     </div>        
 </div>     

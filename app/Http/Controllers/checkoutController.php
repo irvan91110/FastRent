@@ -44,8 +44,8 @@ class checkoutController extends Controller
                 $query->get();
             }
         ])
-            ->where('email', Auth::user()->email)->paginate(8);
-        return $items;
+            ->where('email', Auth::user()->email)->latest()->paginate(6);
+
         return view('transaction_list', ['Transaction' => $items, 'perkalian' => ""]);
     }
     public function details_transaction($id)

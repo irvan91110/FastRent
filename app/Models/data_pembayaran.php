@@ -9,7 +9,7 @@ class data_pembayaran extends Model
 {
     use HasFactory;
     protected $primaryKey = 'reference';
-
+    public $incrementing = false;
     public $timestamps = false;
     protected $dates = ['created_at'];
 
