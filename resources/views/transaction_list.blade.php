@@ -236,7 +236,6 @@
                 <thead>
                     <tr>
                         <th>#ORDERID</th>
-                        <th>Nama</th>
                         <th>Tgl Ambil</th>	
                         <th>Tgl Kembali</th>						
                         <th>Status</th>						
@@ -248,7 +247,7 @@
                 @foreach($Transaction as $list)
                 <tr>
                         <td>{{$list->data_pembayaran->reference}}</td>
-                        <td><a href=""> Irvan Ardiansyah</a></td>
+                      
                         <td>{{date('j F Y', strtotime($list->tanggal_booking)) }}</td>
                         <td>{{date('j F Y', strtotime($list->tanggal_kembali)) }}</td>                     
                         <td>{{$list->data_pembayaran->status}}</td>
