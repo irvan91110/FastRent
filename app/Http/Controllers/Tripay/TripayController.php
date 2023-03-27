@@ -147,11 +147,23 @@ class TripayController extends Controller
                 'created_at' => time(),
 
             ]);
-            return redirect()->to(json_decode($response ?: $error)->data->pay_url);
 
+
+            if ($request->version != null) {
+                return response(["details" => $this->loopcheck($id->id, $start_timestamp, $end_timestamp), "Data_pembayaran" => json_decode($response ?: $error)->data], 200);
+
+            } else {
+                return redirect()->to(json_decode($response ?: $error)->data->pay_url);
+            }
 
         } else {
-            return redirect()->to('/transaction/' . $this->loopcheck($id->id, $start_timestamp, $end_timestamp)->data_pembayaran->reference);
+            if ($request->version != null) {
+                return response(["details" => $this->loopcheck($id->id, $start_timestamp, $end_timestamp), "status_pembayaran" => $this->loopcheck($id->id, $start_timestamp, $end_timestamp)->data_pembayaran], 409);
+
+            } else {
+                return redirect()->to('/transaction/' . $this->loopcheck($id->id, $start_timestamp, $end_timestamp)->data_pembayaran->reference);
+            }
+
 
 
         }

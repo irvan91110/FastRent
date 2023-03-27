@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Sanctum\PersonalAccessToken;
 use Session;
 use App\Models\User;
 use Hash;
@@ -66,6 +67,42 @@ class AuthController extends Controller
 
 
     }
+
+    public function ApipostLogin(Request $request)
+    {
+        $loginData = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+
+        if (!auth()->attempt($loginData)) {
+            return response(['message' => "user ini tidak terdaftar"], 400);
+        }
+
+
+        $accessToken = auth()->user()->createToken('AuthToken')->plainTextToken;
+        return response(["user" => auth()->user(), "access_token" => $accessToken]);
+    }
+
+    public function ApiLogOut(Request $request)
+    {
+
+        // Revoke the token that was used to authenticate the current request...
+        $token = $request->user()->currentAccessToken()->delete();
+
+        return response(["user" => auth()->user(), "access_token" => $token]);
+
+
+    }
+
+    public function getAllUser()
+    {
+        return response()->json([
+            'message' => 'success',
+            'data' => User::all()
+        ], 200);
+    }
+
 
     /**
      * Write code on Method

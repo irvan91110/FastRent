@@ -58,7 +58,6 @@ class ProductController extends Controller
         $end_timestamp = date('Y-m-d', strtotime($request->input('ed')));
 
         $id_mobil = (int) $request->input('id');
-        $request->session()->put('id_mobil', $id_mobil);
 
         $products = data_booking::query()
             ->where('data_mobil_id', $id_mobil)
